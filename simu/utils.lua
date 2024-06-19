@@ -6,7 +6,7 @@ Utils.__newindex = function(_, _, _)
 end
 
 
-function Utils.immutableTable(_, _, _)
+function Utils.immutableTable()
 	error("Attempt to modify an immutable table")
 end
 
