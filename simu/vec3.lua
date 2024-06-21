@@ -3,7 +3,7 @@ local Vec3 = {}
 
 Vec3.__index = Vec3
 
-function Vec3.new(x, y, z)
+local function new(x, y, z)
 	local v = {
 		x = x,
 		y = y,
@@ -13,11 +13,11 @@ function Vec3.new(x, y, z)
 end
 
 function Vec3.zero()
-	return Vec3.new(0, 0, 0)
+	return new(0, 0, 0)
 end
 
 Vec3.__add = function(v1, v2)
-	return Vec3.new(
+	return new(
 		v1.x + v2.x,
 		v1.y + v2.y,
 		v1.z + v2.z
@@ -25,7 +25,7 @@ Vec3.__add = function(v1, v2)
 end
 
 Vec3.__sub = function(v1, v2)
-	return Vec3.new(
+	return new(
 		v1.x - v2.x,
 		v1.y - v2.y,
 		v1.z - v2.z
@@ -37,7 +37,7 @@ Vec3.__mul = function(v1, v2)
 end
 
 Vec3.__div = function(v, f)
-	return Vec3.new(
+	return new(
 		v.x / f,
 		v.y / f,
 		v.z / f
@@ -45,7 +45,7 @@ Vec3.__div = function(v, f)
 end
 
 Vec3.__unm = function(v)
-	return Vec3.new(-v.x, -v.y, -v.z)
+	return new(-v.x, -v.y, -v.z)
 end
 
 Vec3.__eq = function(v1, v2)
@@ -78,7 +78,7 @@ end
 function Vec3:cross(v2)
 	local x1, y1, z1 = self:spread()
 	local x2, y2, z2 = v2:spread()
-	return Vec3.new(y1 * z2 - z1 * y2, z1 * x2 - x1 * z2, x1 * y2 - y1 * x2)
+	return new(y1 * z2 - z1 * y2, z1 * x2 - x1 * z2, x1 * y2 - y1 * x2)
 end
 
 --- Scales the vector by a factor of 's'
@@ -93,7 +93,7 @@ end
 -- @number s The scalar
 -- @treturn Vec3
 function Vec3:scaled(s)
-	return Vec3.new(
+	return new(
 		self.x * s,
 		self.y * s,
 		self.z * s
@@ -111,7 +111,7 @@ end
 -- @treturn Vec3
 function Vec3:normalize()
 	local len = self:length()
-	return Vec3.new(self.x / len, self.y / len, self.z / len)
+	return new(self.x / len, self.y / len, self.z / len)
 end
 
 --- Computes the distance between the two vectors
@@ -131,7 +131,7 @@ end
 --- Constructs a Vec3 with it's z component equal to 1
 -- @treturn Vec3
 function Vec3:truncate()
-	return Vec3.new(self.x, self.y, 1)
+	return new(self.x, self.y, 1)
 end
 
 --- Computes the angle (in radians) between the two vectors
@@ -160,7 +160,7 @@ end
 function Vec3.fromPolar(theta, radius)
 	local x = math.cos(theta) * radius
 	local y = math.cos(theta) * radius
-	return Vec3.new(x, y, 1)
+	return new(x, y, 1)
 end
 
 --- Computes a random unit vector
@@ -169,12 +169,12 @@ function Vec3.randomUnit()
 	local x = math.random(-10, 10)
 	local y = math.random(-10, 10)
 	local z = math.random(-10, 10)
-	return Vec3.new(x, y, z):normalize()
+	return new(x, y, z):normalize()
 end
 
 return setmetatable(Vec3, {
 	__call = function(_, x, y, z)
-		return Vec3.new(x, y, z)
+		return new(x, y, z)
 	end,
 
 	__newindex = function(_, _, _)
