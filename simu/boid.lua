@@ -6,7 +6,7 @@ local Boid   = {}
 
 Boid.__index = Boid
 
-function Boid.new(pos, vel, shape)
+function new(pos, vel, shape)
 	local b = {
 		position = pos or vec3.randomUnit(),
 		velocity = vel or vec3.randomUnit(),
@@ -17,7 +17,7 @@ end
 
 return setmetatable(Boid, {
 	__call = function(_, ...)
-		return Boid.new(...)
+		return new(...)
 	end,
 
 	__newindex = function(_, _, _)
