@@ -1,12 +1,12 @@
-local vec3   = require("vec3")
-local shapes = require("shape")
-local utils  = require("utils")
+local vec3   = require "simu.vec3"
+local shapes = require "simu.shape"
+local utils  = require "simu.utils"
 
 local Boid   = {}
 
 Boid.__index = Boid
 
-function new(pos, vel, shape)
+local function new(pos, vel, shape)
 	local b = {
 		position = pos or vec3.randomUnit(),
 		velocity = vel or vec3.randomUnit(),

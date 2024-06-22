@@ -1,4 +1,4 @@
-local utils = require "utils"
+local utils = require "simu.utils"
 local Vec3 = {}
 
 Vec3.__index = Vec3
@@ -150,6 +150,12 @@ function Vec3:angle_between(v2)
 	local v1 = self:normalize()
 	v2 = v2:normalize()
 	return math.acos(v1 * v2)
+end
+
+--- Computes the angle (in radians) of the vector
+-- @treturn number
+function Vec3:angle()
+	return math.atan2(self.y, self.x)
 end
 
 --- Constructs a Vec3 with it's z component equal to 1
