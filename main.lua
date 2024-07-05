@@ -14,7 +14,7 @@ local visual_range = 75
 local function positionBoids()
   for i = 1, number_of_boids do
     local position = vec2(math.random(windowSize.width), math.random(windowSize.height))
-    local bd = boid(position, vec2.randomUnit() - vec2(5), shapes.triangle)
+    local bd = boid(position, vec2.randomUnit() - vec2(6), shapes.circle)
     boids[i] = bd
   end
 end
@@ -37,7 +37,7 @@ local function boundPosition(bd)
 end
 
 local function limitSpeed(bd)
-  local speed_limit = 15
+  local speed_limit = 10.25
 
   local speed = bd.velocity:length()
 
@@ -50,8 +50,11 @@ end
 local function drawBoids()
   local ctx = love.graphics
   for i = 1, #boids do
-    local bd = boids[i]
+    local bd         = boids[i]
     local draw_shape = shapes.drawFuncOf(bd.shape)
+    local v          = bd.velocity:normalize():length()
+    local c          = love.math.noise(v)
+    ctx.setColor(c, c, c)
     draw_shape(ctx, bd.position.x, bd.position.y)
   end
 end
@@ -62,7 +65,7 @@ local function flyTowardsCenter(b_j, bds)
 
   -- NOTE: This controls how much/fast to move towards the center
   -- NOTE: An easing function can be used here
-  local centering_factor = 0.005
+  local centering_factor = 0.0010
 
   local center           = vec2()
   local neighbor_count   = 0
@@ -85,10 +88,10 @@ local function avoidOthers(bd_j, bds)
   -- Rule 2: Boids try to keep a small distance away from other objects (including other boids)
   -- NOTE: This is done by moving a boid away from other boids if they are too close only by
   -- a percentage of the final accmulated distance
-  local min_distance = 35
+  local min_distance = 25
 
   -- NOTE: This controls the percentage of the final distance to move away from the other boids
-  local avoid_factor = 0.05
+  local avoid_factor = 10 / 100
 
   local movement = vec2()
 
@@ -105,7 +108,7 @@ end
 local function matchVelocity(b_j, bds)
   -- Rule 3: Boids try to match velocity with near boids
   -- NOTE: The controls the percentage of the final velocity
-  local matching_factor = 0.05
+  local matching_factor = 2 / 100
 
   local average_velocity = vec2()
   local num_neighbors = 0

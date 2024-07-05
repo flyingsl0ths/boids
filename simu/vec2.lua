@@ -130,7 +130,7 @@ end
 --- Computes the angle (in radians) of the vector
 -- @treturn number
 function Vec2:angle()
-	return math.atan(self.y, self.x)
+	return math.atan2(self.y, self.x)
 end
 
 --- Constructs a Vec2 with it's z component equal to 1
