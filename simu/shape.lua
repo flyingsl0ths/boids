@@ -19,7 +19,7 @@ end
 -- @number x The x coordinate
 -- @number y The y coordinate
 -- @treturn function
-function Shapes.draw_function_of(shape)
+function Shapes.drawFuncOf(shape)
 	if shape == Shapes.triangle then
 		return function(ctx, x, y)
 			ctx.polygon("fill", x, y, x + 10, y + 10, x - 10, y + 10)
