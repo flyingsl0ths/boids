@@ -52,7 +52,7 @@ local function drawBoids()
   for i = 1, #boids do
     local bd         = boids[i]
     local draw_shape = shapes.drawFuncOf(bd.shape)
-    local v          = bd.velocity:normalize():length()
+    local v          = bd.velocity:length()
     local c          = love.math.noise(v)
     ctx.setColor(c, c, c)
     draw_shape(ctx, bd.position.x, bd.position.y)
