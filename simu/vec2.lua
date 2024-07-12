@@ -117,16 +117,6 @@ function Vec2:angle_to(v2)
 	return math.atan(self.y - v2.y, self.x - v2.x)
 end
 
---- Computes the angle (in radians) between the two vectors
--- Note: This does take into account all components
--- @tparam Vec2 v2 The other vector
--- @treturn number
-function Vec2:angle_between(v2)
-	local v1 = self:normalize()
-	v2 = v2:normalize()
-	return math.acos(v1 * v2)
-end
-
 --- Computes the angle (in radians) of the vector
 -- @treturn number
 function Vec2:angle()
