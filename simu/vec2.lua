@@ -1,4 +1,5 @@
 local utils = require "simu.utils"
+
 local Vec2 = {}
 
 Vec2.__index = Vec2
@@ -107,14 +108,6 @@ end
 -- @treturn number
 function Vec2:length()
 	return math.sqrt(self.x * self.x + self.y * self.y)
-end
-
---- Computes the angle (in radians) between the two vectors
--- Note: This only takes into account the x & y components
--- @tparam Vec2 v2 The other vector
--- @treturn number
-function Vec2:angle_to(v2)
-	return math.atan(self.y - v2.y, self.x - v2.x)
 end
 
 --- Computes the angle (in radians) of the vector
