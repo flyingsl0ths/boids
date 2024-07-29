@@ -116,12 +116,14 @@ function Boid:matchVelocity(boids)
 	end
 end
 
+Boid.__newindex = utils.immutableTable
+
 return setmetatable(Boid, {
 	__call = function(_, ...)
 		return new(...)
 	end,
 
-	__newindex = utils.immutableTable(),
+	__metatable = false,
 
-	__metatable = false
+	__newindex = utils.immutableTable,
 })

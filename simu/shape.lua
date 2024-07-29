@@ -7,8 +7,6 @@ local Shapes = {
 }
 
 Shapes.__index = Shapes
-Shapes.__newindex = utils.immutableTable()
-Shapes.__metatable = false
 
 --- Computes a random Shape
 -- @number The Shape
@@ -42,5 +40,8 @@ function Shapes.drawFuncOf(shape)
 		end
 	end
 end
+
+Shapes.__metatable = false
+Shapes.__newindex = utils.immutableTable
 
 return Shapes

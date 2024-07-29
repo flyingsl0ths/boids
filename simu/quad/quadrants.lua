@@ -8,7 +8,7 @@ local Quadrants = {
 }
 
 Quadrants.__index = Quadrants
-Quadrants.__newindex = utils.immutableTable()
 Quadrants.__metatable = false
+Quadrants.__newindex = utils.immutableTable
 
 return Quadrants

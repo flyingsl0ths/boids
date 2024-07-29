@@ -2,8 +2,6 @@ local utils = require "simu.utils"
 
 local Vec2 = {}
 Vec2.__index = Vec2
-Vec2.__newindex = utils.immutableTable()
-Vec2.__metatable = false
 
 local function new(x, y)
 	local v = {
@@ -136,12 +134,14 @@ function Vec2.randomUnit()
 	return new(x, y):normalize()
 end
 
+Vec2.__newindex = utils.immutableTable
+
 return setmetatable(Vec2, {
-	__call = function(_, x, y)
+	__call      = function(_, x, y)
 		return new(x, y)
 	end,
 
-	__newindex = utils.immutableTable(),
+	__newindex  = utils.immutableTable,
 
 	__metatable = false
 })

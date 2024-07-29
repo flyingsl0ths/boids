@@ -4,8 +4,6 @@ local quadrants = require "simu.quad.quadrants"
 
 local Box = {}
 Box.__index = Box
-Box.__newindex = utils.immutableTable()
-Box.__metatable = false
 
 local function new(x, y, width, height)
 	local instance = {
@@ -49,12 +47,14 @@ function Box:subdivide(quadrant)
 	end
 end
 
+Box.__newindex = utils.immutableTable
+
 return setmetatable(Box, {
-	__call      = function(_, ...)
+	__call = function(_, ...)
 		return new(...)
 	end,
 
-	__newindex  = utils.immutableTable(),
+	__metatable = false,
 
-	__metatable = false
+	__newindex = utils.immutableTable
 })
