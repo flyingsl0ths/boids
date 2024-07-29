@@ -1,6 +1,7 @@
 local Utils = {}
 
 Utils.__index = Utils
+Utils.__metatable = false
 Utils.__newindex = function(_, _, _)
 	Utils.immutableTable()
 end

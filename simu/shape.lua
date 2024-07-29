@@ -6,6 +6,10 @@ local Shapes = {
 	circle = 3
 }
 
+Shapes.__index = Shapes
+Shapes.__newindex = utils.immutableTable()
+Shapes.__metatable = false
+
 --- Computes a random Shape
 -- @number The Shape
 function Shapes.random()
@@ -39,9 +43,4 @@ function Shapes.drawFuncOf(shape)
 	end
 end
 
-return setmetatable({}, {
-	__index = Shapes,
-	__newindex = function(_, _, _)
-		utils.immutableTable()
-	end
-})
+return Shapes

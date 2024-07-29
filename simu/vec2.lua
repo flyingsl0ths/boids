@@ -140,7 +140,7 @@ return setmetatable(Vec2, {
 		return new(x, y)
 	end,
 
-	__newindex = function(_, _, _)
-		utils.immutableTable()
-	end
+	__newindex = utils.immutableTable(),
+
+	__metatable = false
 })

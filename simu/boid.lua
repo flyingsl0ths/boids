@@ -121,7 +121,7 @@ return setmetatable(Boid, {
 		return new(...)
 	end,
 
-	__newindex = function(_, _, _)
-		utils.immutableTable()
-	end
+	__newindex = utils.immutableTable(),
+
+	__metatable = false
 })
