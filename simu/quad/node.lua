@@ -20,18 +20,45 @@ local function new(boundary, capacity, max_depth)
 	return setmetatable(instance, Node)
 end
 
+local function subdivide(node)
+	local max_depth = self.max_depth + 1
+	node.north_west = new(node.boundary:subdivide(quadrants.NORTH_WEST), node.capacity, max_depth)
+	node.north_east = new(node.boundary:subdivide(quadrants.NORTH_EAST), node.capacity, max_depth)
+	node.south_west = new(node.boundary:subdivide(quadrants.SOUTH_WEST), node.capacity, max_depth)
+	node.south_east = new(node.boundary:subdivide(quadrants.SOUTH_EAST), node.capacity, max_depth)
+
+	node.divided = true
+
+	for _, value in ipairs(node.points) do
+		local inserted = node.north_west:insert(value) or
+		    node.north_east:insert(value) or
+		    node.south_west:insert(value) or
+		    node.south_east:insert(value)
+
+		if not inserted then
+			error("Capacity must be greater than zero")
+		end
+	end
+
+	node.points = nil
+end
+
+local function isShallow(node)
+	return #self.points < self.capacity or self.depth == self.max_depth
+end
+
 function Node:insert(point)
 	if not self.boundary:contains(point) then
 		return false
 	end
 
 	if not self.divided then
-		if self:isShallow() then
+		if isShallow(self) then
 			table.insert(self.points, point)
 			return true
 		end
 
-		self:subdivide()
+		subdivide(self)
 	end
 
 	return self.north_west:insert(point) or
@@ -40,57 +67,24 @@ function Node:insert(point)
 	    self.south_east:insert(point)
 end
 
-function Node:isShallow()
-	return #self.points < self.capacity or self.depth == self.max_depth
-end
-
-function Node:subdivide()
-	local max_depth = self.max_depth + 1
-	self.north_west = new(self.boundary:subdivide(quadrants.NORTH_WEST), self.capacity, max_depth)
-	self.north_east = new(self.boundary:subdivide(quadrants.NORTH_EAST), self.capacity, max_depth)
-	self.south_west = new(self.boundary:subdivide(quadrants.SOUTH_WEST), self.capacity, max_depth)
-	self.south_east = new(self.boundary:subdivide(quadrants.SOUTH_EAST), self.capacity, max_depth)
-
-	self.divided = true
-
-	for _, value in ipairs(self.points) do
-		local inserted = self.north_west:insert(value) or
-		    self.north_east:insert(value) or
-		    self.south_west:insert(value) or
-		    self.south_east:insert(value)
-
-		if not inserted then
-			error("Capacity must be greater than zero")
-		end
-	end
-
-	self.points = nil
-end
-
-local function query(node, range, found)
-	if not range:interset(node.boundary) then
+function Node:query(range, found)
+	if not range:interset(self.boundary) then
 		return found
 	end
 
-	if node.divided then
-		query(node.north_west, range, found)
-		query(node.north_east, range, found)
-		query(node.south_west, range, found)
-		query(node.south_east, range, found)
+	if self.divided then
+		self.north_west:query(range, found)
+		self.north_east:query(range, found)
+		self.south_west:query(range, found)
+		self.south_east:query(range, found)
 		return found
 	end
 
-	for _, point in ipairs(node.points) do
+	for _, point in ipairs(self.points) do
 		if range:contains(point) then
 			table.insert(found, point)
 		end
 	end
-end
-
-function Node:query(range)
-	local found = {}
-	query(self, range, found)
-	return found
 end
 
 Node.__newindex = utils.immutableTable

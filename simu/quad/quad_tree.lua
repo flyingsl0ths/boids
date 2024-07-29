@@ -10,7 +10,6 @@ QuadTree.__index = QuadTree
 
 local function new(boundary, root, capacity, max_depth)
 	local instance = {
-		boundary = boundary,
 		root = root or node(boundary, capacity or CAPACITY, max_depth or MAX_DEPTH),
 	}
 	return setmetatable(instance, QuadTree)
@@ -21,7 +20,9 @@ function QuadTree:insert(point)
 end
 
 function QuadTree:query(range)
-	return self.root:query(range)
+	local found = {}
+	self.root:query(range, found)
+	return found
 end
 
 QuadTree.__newindex = utils.immutableTable
