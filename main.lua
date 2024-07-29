@@ -19,43 +19,43 @@ local function positionBoids()
 end
 
 local function drawBoids()
-  local ctx = love.graphics
-  for i = 1, #boids do
-    local bd         = boids[i]
-    local draw_shape = shapes.drawFuncOf(bd.shape)
-    local velocity   = bd.velocity:length()
-    local color      = love.math.noise(velocity)
-    ctx.setColor(color, color, color)
-    draw_shape(ctx, bd.position.x, bd.position.y)
-  end
+	local ctx = love.graphics
+	for i = 1, #boids do
+		local bd         = boids[i]
+		local draw_shape = shapes.drawFuncOf(bd.shape)
+		local velocity   = bd.velocity:length()
+		local color      = love.math.noise(velocity)
+		ctx.setColor(color, color, color)
+		draw_shape(ctx, bd.position.x, bd.position.y)
+	end
 end
 
 
 
 local function moveToNewPositions()
-  for i = 1, #boids do
-    local bd = boids[i]
+	for i = 1, #boids do
+		local bd = boids[i]
 
-    bd:flyTowardsCenter(boids)
-    bd:avoidOthers(boids)
-    bd:matchVelocity(boids)
-    bd:limitSpeed()
-    bd:boundPosition(WINDOW_SIZE)
+		bd:flyTowardsCenter(boids)
+		bd:avoidOthers(boids)
+		bd:matchVelocity(boids)
+		bd:limitSpeed()
+		bd:boundPosition(WINDOW_SIZE)
 
-    bd.position = bd.position + bd.velocity
-  end
+		bd.position = bd.position + bd.velocity
+	end
 end
 
 function love.load()
-  love.window.setTitle("Flocking Boids")
-  love.window.setMode(WINDOW_SIZE.width, WINDOW_SIZE.height, {})
-  positionBoids()
+	love.window.setTitle("Flocking Boids")
+	love.window.setMode(WINDOW_SIZE.width, WINDOW_SIZE.height, {})
+	positionBoids()
 end
 
 function love.update()
-  moveToNewPositions()
+	moveToNewPositions()
 end
 
 function love.draw()
-  drawBoids()
+	drawBoids()
 end

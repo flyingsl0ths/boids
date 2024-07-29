@@ -3,6 +3,7 @@ local vec2 = require "simu.vec2"
 local quadrants = require "simu.quad.quadrants"
 
 local Box = {}
+
 Box.__index = Box
 
 local function new(x, y, width, height)

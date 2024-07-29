@@ -1,6 +1,7 @@
 local utils = require "simu.utils"
 
 local Vec2 = {}
+
 Vec2.__index = Vec2
 
 local function new(x, y)
@@ -141,7 +142,7 @@ return setmetatable(Vec2, {
 		return new(x, y)
 	end,
 
-	__newindex  = utils.immutableTable,
+	__metatable = false,
 
-	__metatable = false
+	__newindex  = utils.immutableTable
 })
