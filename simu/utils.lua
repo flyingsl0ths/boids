@@ -1,11 +1,8 @@
 local Utils = {}
 
 Utils.__index = Utils
+Utils.__newindex = Utils.immutableTable
 Utils.__metatable = false
-Utils.__newindex = function(_, _, _)
-	Utils.immutableTable()
-end
-
 
 function Utils.immutableTable()
 	error("Attempt to modify an immutable table")
