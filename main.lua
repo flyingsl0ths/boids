@@ -11,11 +11,11 @@ local STARTING_AMOUNT = 150
 
 
 local function positionBoids()
-  for i = 1, STARTING_AMOUNT do
-    local position = vec2(math.random(WINDOW_SIZE.width), math.random(WINDOW_SIZE.height))
-    local bd = boid(position, vec2.randomUnit() - vec2(6), shapes.circle)
-    boids[i] = bd
-  end
+	for i = 1, STARTING_AMOUNT do
+		local position = vec2(math.random(WINDOW_SIZE.width), math.random(WINDOW_SIZE.height))
+		local bd = boid(position, vec2.randomUnit() - vec2(6), shapes.CIRCLE)
+		boids[i] = bd
+	end
 end
 
 local function drawBoids()
