@@ -1,8 +1,9 @@
 local utils = require "simu.utils"
 
 local Vec2 = {}
-
 Vec2.__index = Vec2
+Vec2.__newindex = utils.immutableTable()
+Vec2.__metatable = false
 
 local function new(x, y)
 	local v = {
