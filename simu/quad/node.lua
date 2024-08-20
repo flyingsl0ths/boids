@@ -22,10 +22,10 @@ end
 
 local function subdivide(node)
 	local max_depth = node.max_depth + 1
-	node.north_west = new(node.boundary:subdivide(quadrants.NORTH_WEST), node.capacity, max_depth)
-	node.north_east = new(node.boundary:subdivide(quadrants.NORTH_EAST), node.capacity, max_depth)
-	node.south_west = new(node.boundary:subdivide(quadrants.SOUTH_WEST), node.capacity, max_depth)
-	node.south_east = new(node.boundary:subdivide(quadrants.SOUTH_EAST), node.capacity, max_depth)
+	node.north_west = new(node.boundary:subdivide(quadrants.NW), node.capacity, max_depth)
+	node.north_east = new(node.boundary:subdivide(quadrants.NE), node.capacity, max_depth)
+	node.south_west = new(node.boundary:subdivide(quadrants.SW), node.capacity, max_depth)
+	node.south_east = new(node.boundary:subdivide(quadrants.SE), node.capacity, max_depth)
 
 	node.divided = true
 
