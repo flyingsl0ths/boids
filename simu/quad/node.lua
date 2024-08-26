@@ -29,7 +29,8 @@ local function subdivide(node)
 
 	node.divided = true
 
-	for _, value in ipairs(node.points) do
+	for i = 1, #node.points do
+		local value = node.points[i]
 		local inserted = node.north_west:insert(value) or
 		    node.north_east:insert(value) or
 		    node.south_west:insert(value) or
@@ -43,8 +44,8 @@ local function subdivide(node)
 	node.points = nil
 end
 
-local function isShallow(node)
-	return #node.points < node.capacity or node.depth == node.max_depth
+local function is_shallow(node)
+	return (#node.points < node.capacity) or (node.depth == node.max_depth)
 end
 
 function Node:insert(point)
@@ -53,7 +54,7 @@ function Node:insert(point)
 	end
 
 	if not self.divided then
-		if isShallow(self) then
+		if is_shallow(self) then
 			table.insert(self.points, point)
 			return true
 		end
@@ -68,8 +69,8 @@ function Node:insert(point)
 end
 
 function Node:query(range, found)
-	if not range:interset(self.boundary) then
-		return found
+	if not range:intersects(self.boundary) then
+		return
 	end
 
 	if self.divided then
@@ -77,17 +78,19 @@ function Node:query(range, found)
 		self.north_east:query(range, found)
 		self.south_west:query(range, found)
 		self.south_east:query(range, found)
-		return found
 	end
 
-	for _, point in ipairs(self.points) do
+	if self.points == nil then
+		return
+	end
+
+	for i = 1, #self.points do
+		local point = self.points[i]
 		if range:contains(point) then
 			table.insert(found, point)
 		end
 	end
 end
-
-Node.__newindex = utils.immutableTable
 
 return setmetatable(Node, {
 	__call = function(_, ...)

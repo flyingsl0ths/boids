@@ -135,8 +135,6 @@ function Vec2.randomUnit()
 	return new(x, y):normalize()
 end
 
-Vec2.__newindex = utils.immutableTable
-
 return setmetatable(Vec2, {
 	__call      = function(_, x, y)
 		return new(x, y)
