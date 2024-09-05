@@ -16,7 +16,7 @@ end
 
 function Circle:contains(point)
 	local d = (point - self.position):length()
-	return d <= self.r_squared
+	return d <= self.r
 end
 
 function Circle:intersects(other)
