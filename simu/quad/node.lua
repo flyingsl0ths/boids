@@ -92,6 +92,18 @@ function Node:query(range, found)
 	end
 end
 
+function Node:clear()
+	if self.divided then
+		self.north_west:clear()
+		self.north_east:clear()
+		self.south_west:clear()
+		self.south_east:clear()
+	end
+
+	self.points = {}
+	self.divided = false
+end
+
 return setmetatable(Node, {
 	__call = function(_, ...)
 		return new(...)

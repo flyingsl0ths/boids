@@ -3,21 +3,22 @@ local shapes = require "simu.shape"
 local box = require "simu.quad.box"
 local circle = require "simu.quad.circle"
 local qt = require "simu.quad.quad_tree"
-
+local boid = require "simu.boid"
 
 local boids = {}
 local tree
-local range = circle(0, 0, 64)
 
 local WINDOW_SIZE = { width = 800, height = 600 }
 
-local STARTING_AMOUNT = 150
+local STARTING_AMOUNT = 2000
 
 
-local function positionBoids(quadtree)
-  for _ = 1, STARTING_AMOUNT do
+local function positionBoids(qtree)
+  for i = 1, STARTING_AMOUNT do
     local position = vec2(math.random(WINDOW_SIZE.width), math.random(WINDOW_SIZE.height))
-    quadtree:insert(position)
+    local bd = boid(position, vec2.randomUnit() - vec2(6), shapes.CIRCLE)
+    qtree:insert(position, bd)
+    boids[i] = bd
   end
 end
 
@@ -35,13 +36,16 @@ end
 
 
 
-local function moveToNewPositions()
+local function moveToNewPositions(qtree)
   for i = 1, #boids do
     local bd = boids[i]
 
-    bd:flyTowardsCenter(boids)
-    bd:avoidOthers(boids)
-    bd:matchVelocity(boids)
+    local range = circle(bd.position.x, bd.position.y, boid.VISUAL_RANGE)
+    local neighbors = qtree:query(range, bd.position)
+
+    bd:flyTowardsCenter(neighbors)
+    bd:avoidOthers(neighbors)
+    bd:matchVelocity(neighbors)
     bd:limitSpeed()
     bd:boundPosition(WINDOW_SIZE)
 
@@ -58,21 +62,10 @@ function love.load()
 end
 
 function love.update()
-  -- moveToNewPositions()
+  moveToNewPositions(tree)
+  tree:clear()
 end
 
 function love.draw()
-  -- drawBoids()
-  if love.mouse.isDown(1) then -- right click
-    local x, y = love.mouse.getPosition()
-    range.position.x = x
-    range.position.y = y
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.circle("line", x, y, range.r)
-    local points = tree:query(range)
-    love.graphics.setColor(1, 0, 0)
-    for i = 1, #points do
-      love.graphics.circle("fill", points[i].x, points[i].y, 10)
-    end
-  end
+  drawBoids()
 end

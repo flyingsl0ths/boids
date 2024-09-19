@@ -141,6 +141,4 @@ return setmetatable(Vec2, {
 	end,
 
 	__metatable = false,
-
-	__newindex  = utils.immutableTable
 })

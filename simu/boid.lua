@@ -1,15 +1,16 @@
-local vec2         = require "simu.vec2"
-local shapes       = require "simu.shape"
-local utils        = require "simu.utils"
+local vec2      = require "simu.vec2"
+local shapes    = require "simu.shape"
+local utils     = require "simu.utils"
 
-local BOID_SIZE    = 120
+local BOID_SIZE = 120
 
--- NOTE: This is the distance at which boids will start to interact with each other
-local VISUAL_RANGE = 75
 
-local Boid         = {}
+local Boid   = {
+	-- NOTE: This is the distance at which boids will start to interact with each other
+	VISUAL_RANGE = 14
+}
 
-Boid.__index       = Boid
+Boid.__index = Boid
 
 local function new(pos, vel, shape)
 	local b = {
@@ -60,8 +61,8 @@ function Boid:flyTowardsCenter(boids)
 	local neighbor_count   = 0
 
 	for i = 1, #boids do
-		local other = boids[i]
-		if self.position:distance(other.position) < VISUAL_RANGE then
+		local other = boids[i].data
+		if self.position:distance(other.position) < Boid.VISUAL_RANGE then
 			center = center + other.position
 			neighbor_count = neighbor_count + 1
 		end
@@ -85,7 +86,7 @@ function Boid:avoidOthers(boids)
 	local movement = vec2()
 
 	for i = 1, #boids do
-		local b_n = boids[i]
+		local b_n = boids[i].data
 		if b_n ~= self and self.position:distance(b_n.position) < min_distance then
 			movement = movement + (self.position - b_n.position)
 		end
@@ -103,8 +104,8 @@ function Boid:matchVelocity(boids)
 	local num_neighbors = 0
 
 	for i = 1, #boids do
-		local other = boids[i]
-		if self.position:distance(other.position) < VISUAL_RANGE then
+		local other = boids[i].data
+		if self.position:distance(other.position) < Boid.VISUAL_RANGE then
 			average_velocity = average_velocity + other.velocity
 			num_neighbors = num_neighbors + 1
 		end
