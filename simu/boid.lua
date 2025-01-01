@@ -7,7 +7,7 @@ local BOID_SIZE = 120
 
 local Boid   = {
 	-- NOTE: This is the distance at which boids will start to interact with each other
-	VISUAL_RANGE = 14
+	VISUAL_RANGE = 30
 }
 
 Boid.__index = Boid
