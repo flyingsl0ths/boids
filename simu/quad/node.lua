@@ -5,36 +5,39 @@ local Node = {}
 
 Node.__index = Node
 
-local function new(boundary, capacity, max_depth)
+local function new(boundary, capacity, max_depth, depth)
 	local instance = {
 		boundary = boundary,
+		capacity = capacity,
+		max_depth = max_depth,
+
 		north_west = nil,
 		north_east = nil,
 		south_west = nil,
 		south_east = nil,
-		capacity = capacity,
-		max_depth = max_depth,
 		points = {},
+		depth = depth or 0,
 		divided = false
 	}
 	return setmetatable(instance, Node)
 end
 
 local function subdivide(node)
-	local max_depth = node.max_depth + 1
-	node.north_west = new(node.boundary:subdivide(quadrants.NW), node.capacity, max_depth)
-	node.north_east = new(node.boundary:subdivide(quadrants.NE), node.capacity, max_depth)
-	node.south_west = new(node.boundary:subdivide(quadrants.SW), node.capacity, max_depth)
-	node.south_east = new(node.boundary:subdivide(quadrants.SE), node.capacity, max_depth)
+	local depth = node.depth + 1
+	local max_depth = node.max_depth
+	node.north_east = new(node.boundary:subdivide(quadrants.NE), node.capacity, max_depth, depth)
+	node.north_west = new(node.boundary:subdivide(quadrants.NW), node.capacity, max_depth, depth)
+	node.south_east = new(node.boundary:subdivide(quadrants.SE), node.capacity, max_depth, depth)
+	node.south_west = new(node.boundary:subdivide(quadrants.SW), node.capacity, max_depth, depth)
 
 	node.divided = true
 
 	for i = 1, #node.points do
-		local value = node.points[i]
-		local inserted = node.north_west:insert(value) or
-		    node.north_east:insert(value) or
-		    node.south_west:insert(value) or
-		    node.south_east:insert(value)
+		local point = node.points[i]
+		local inserted = node.north_east:insert(point) or
+		    node.north_west:insert(point) or
+		    node.south_east:insert(point) or
+		    node.south_west:insert(point)
 
 		if not inserted then
 			error("Capacity must be greater than zero")
@@ -69,7 +72,9 @@ function Node:insert(point)
 end
 
 function Node:query(range, found)
-	if not range:intersects(self.boundary) then
+	if #self.points == 0 or
+	    not range:intersects(self.boundary)
+	then
 		return
 	end
 
@@ -80,9 +85,6 @@ function Node:query(range, found)
 		self.south_east:query(range, found)
 	end
 
-	if self.points == nil then
-		return
-	end
 
 	for i = 1, #self.points do
 		local point = self.points[i]
@@ -93,15 +95,15 @@ function Node:query(range, found)
 end
 
 function Node:clear()
+	self.points = {}
+
 	if self.divided then
+		self.divided = false
 		self.north_west:clear()
 		self.north_east:clear()
 		self.south_west:clear()
 		self.south_east:clear()
 	end
-
-	self.points = {}
-	self.divided = false
 end
 
 return setmetatable(Node, {

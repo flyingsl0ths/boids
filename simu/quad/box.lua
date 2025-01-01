@@ -31,19 +31,14 @@ function Box:subdivide(quadrant)
 	local half_width = self.width / 2
 	local half_height = self.height / 2
 
-	local west_x = self.x - self.width / 4
-	local east_x = self.x + self.width / 4
-	local north_y = self.y - self.height / 4
-	local south_y = self.y + self.height / 4
-
-	if quadrant == quadrants.NW then
-		return new(west_x, north_y, half_width, half_height)
-	elseif quadrant == quadrants.NE then
-		return new(east_x, north_y, half_width, half_height)
-	elseif quadrant == quadrants.SW then
-		return new(west_x, south_y, half_width, half_height)
+	if quadrant == quadrants.NE then
+		return new(self.x + self.width / 4, self.y - self.height / 4, half_width, half_height)
+	elseif quadrant == quadrants.NW then
+		return new(self.x - self.width / 4, self.y - self.height / 4, half_width, half_height)
 	elseif quadrant == quadrants.SE then
-		return new(east_x, south_y, half_width, half_height)
+		return new(self.x + self.width / 4, self.y + self.height / 4, half_width, half_height)
+	elseif quadrant == quadrants.SW then
+		return new(self.x - self.width / 4, self.y + self.height / 4, half_width, half_height)
 	end
 end
 

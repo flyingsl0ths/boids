@@ -1,10 +1,10 @@
 local utils = require "simu.utils"
 
 local Quadrants = {
-	NW = 0,
-	NE = 1,
-	SW = 2,
-	SE = 3
+	NE = 0,
+	NW = 1,
+	SE = 2,
+	SW = 3
 }
 
 Quadrants.__index = Quadrants

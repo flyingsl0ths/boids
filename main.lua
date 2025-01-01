@@ -41,6 +41,7 @@ local function moveToNewPositions(qtree)
     local bd = boids[i]
 
     local range = circle(bd.position.x, bd.position.y, boid.VISUAL_RANGE)
+
     local neighbors = qtree:query(range)
 
     bd:flyTowardsCenter(neighbors)
@@ -63,6 +64,12 @@ end
 
 function love.update()
   tree:clear()
+
+  for i = 1, #boids do
+    local bd = boids[i]
+    tree:insert(bd.position, bd)
+  end
+
   moveToNewPositions(tree)
 end
 
