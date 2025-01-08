@@ -15,8 +15,8 @@ local function new(x, y, r)
 end
 
 function Circle:contains(point)
-	local d = (point - self.position):length()
-	return d <= self.r
+	local d = math.pow(point.x - self.position.x, 2) + math.pow(point.y - self.position.y, 2)
+	return d <= self.r_squared
 end
 
 function Circle:intersects(other)
@@ -30,7 +30,7 @@ function Circle:intersects(other)
 
 	local edges = math.pow(x_dist - w, 2) + math.pow(y_dist - h, 2)
 
-	if x_dist > (r + w) or y_dist > (r + h) then
+	if (x_dist > (r + w)) or (y_dist > (r + h)) then
 		return false
 	end
 

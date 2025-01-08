@@ -1,13 +1,13 @@
-local vec2      = require "simu.vec2"
-local shapes    = require "simu.shape"
-local utils     = require "simu.utils"
+local vec2   = require "simu.vec2"
+local shapes = require "simu.shape"
+local utils  = require "simu.utils"
 
-local BOID_SIZE = 120
 
 
 local Boid   = {
 	-- NOTE: This is the distance at which boids will start to interact with each other
-	VISUAL_RANGE = 30
+	VISUAL_RANGE = 150,
+	SIZE = 10
 }
 
 Boid.__index = Boid
@@ -24,16 +24,16 @@ end
 function Boid:boundPosition(bounds)
 	local turn_factor = 1
 
-	if self.position.x < BOID_SIZE then
+	if self.position.x < Boid.SIZE then
 		self.velocity.x = self.velocity.x + turn_factor
 	end
-	if self.position.x > bounds.width - BOID_SIZE then
+	if self.position.x > bounds.width - Boid.SIZE then
 		self.velocity.x = self.velocity.x - turn_factor
 	end
-	if self.position.y < BOID_SIZE then
+	if self.position.y < Boid.SIZE then
 		self.velocity.y = self.velocity.y + turn_factor
 	end
-	if self.position.y > bounds.height - BOID_SIZE then
+	if self.position.y > bounds.height - Boid.SIZE then
 		self.velocity.y = self.velocity.y - turn_factor
 	end
 end

@@ -72,8 +72,7 @@ function Node:insert(point)
 end
 
 function Node:query(range, found)
-	if #self.points == 0 or
-	    not range:intersects(self.boundary)
+	if not range:intersects(self.boundary)
 	then
 		return
 	end
@@ -85,6 +84,9 @@ function Node:query(range, found)
 		self.south_east:query(range, found)
 	end
 
+	if not self.points then
+		return
+	end
 
 	for i = 1, #self.points do
 		local point = self.points[i]

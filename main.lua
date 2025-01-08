@@ -10,7 +10,7 @@ local tree
 
 local WINDOW_SIZE = { width = 800, height = 600 }
 
-local STARTING_AMOUNT = 2000
+local STARTING_AMOUNT = 1000
 
 
 local function positionBoids(qtree)
@@ -18,6 +18,7 @@ local function positionBoids(qtree)
     local position = vec2(math.random(WINDOW_SIZE.width), math.random(WINDOW_SIZE.height))
     local bd = boid(position, vec2.randomUnit() - vec2(6), shapes.CIRCLE)
     qtree:insert(position, bd)
+
     boids[i] = bd
   end
 end
@@ -26,7 +27,7 @@ local function drawBoids()
   local ctx = love.graphics
   for i = 1, #boids do
     local bd         = boids[i]
-    local draw_shape = shapes.drawFuncOf(bd.shape)
+    local draw_shape = shapes.drawFuncOf(bd.shape, boid.SIZE)
     local velocity   = bd.velocity:length()
     local color      = love.math.noise(velocity)
     ctx.setColor(color, color, color)
