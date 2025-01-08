@@ -8,9 +8,9 @@ local boid = require "simu.boid"
 local boids = {}
 local tree
 
-local WINDOW_SIZE = { width = 800, height = 600 }
+local WINDOW_SIZE = { width = 1000, height = 600 }
 
-local STARTING_AMOUNT = 1000
+local STARTING_AMOUNT = 200
 
 
 local function positionBoids(qtree)
