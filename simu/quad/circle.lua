@@ -41,6 +41,8 @@ function Circle:intersects(other)
 	return edges <= self.r_squared
 end
 
+Circle.__newindex = utils.immutableTable
+
 return setmetatable(Circle, {
 	__call = function(_, ...)
 		return new(...)

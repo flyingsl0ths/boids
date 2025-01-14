@@ -23,6 +23,8 @@ function Base:move(offset_x, offset_y)
 	self.position.y = self.position.y + offset_y
 end
 
+Base.__newindex = utils.immutableTable
+
 return setmetatable(Base, {
 	__call = function(_, ...)
 		return new(...)

@@ -14,6 +14,7 @@ local function new(min, max, step, initial_value)
 		value = initial_value or min,
 		step = step or 0.01,
 		handle_position = vec2(),
+		__newindex = utils.immutableTable
 	}
 
 	return setmetatable(slider, Slider)
@@ -35,6 +36,8 @@ function Slider:draw()
 
 	love.graphics.circle("fill", self.handle_position.x + radius, self.handle_position.y - radius, radius)
 end
+
+Slider.__newindex = utils.immutableTable
 
 return setmetatable(Slider, {
 	__call = function(_, ...)

@@ -151,6 +151,7 @@ function Boid:matchVelocity(boids, context)
 	end
 end
 
+Boid.__newindex = utils.immutableTable
 return setmetatable(Boid, {
 	__call = function(_, ...)
 		return new(...)
