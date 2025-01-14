@@ -16,8 +16,7 @@ local function new(boundary, capacity, root, max_depth)
 end
 
 function QuadTree:insert(point, data)
-	point.data = data
-	return self.root:insert(point)
+	return self.root:insert({ point = point, data = data, __newindex = utils.immutableTable })
 end
 
 function QuadTree:query(range)

@@ -51,24 +51,24 @@ local function is_shallow(node)
 	return (#node.points < node.capacity) or (node.depth == node.max_depth)
 end
 
-function Node:insert(point)
-	if not self.boundary:contains(point) then
+function Node:insert(data)
+	if not self.boundary:contains(data.point) then
 		return false
 	end
 
 	if not self.divided then
 		if is_shallow(self) then
-			table.insert(self.points, point)
+			table.insert(self.points, data)
 			return true
 		end
 
 		subdivide(self)
 	end
 
-	return self.north_west:insert(point) or
-	    self.north_east:insert(point) or
-	    self.south_west:insert(point) or
-	    self.south_east:insert(point)
+	return self.north_west:insert(data) or
+	    self.north_east:insert(data) or
+	    self.south_west:insert(data) or
+	    self.south_east:insert(data)
 end
 
 function Node:query(range, found)
@@ -89,9 +89,9 @@ function Node:query(range, found)
 	end
 
 	for i = 1, #self.points do
-		local point = self.points[i]
-		if range:contains(point) then
-			table.insert(found, point)
+		local data = self.points[i]
+		if range:contains(data.point) then
+			table.insert(found, data)
 		end
 	end
 end
