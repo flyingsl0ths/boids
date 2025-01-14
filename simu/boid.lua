@@ -24,7 +24,7 @@ local default_context = {
 
 	-- Rule 3: Boids try to match velocity with near boids
 	-- NOTE: The controls the percentage of the final velocity
-	matching_factor = 2 / 100,
+	matching_factor = 10 / 100,
 
 	-- NOTE: This controls the percentage of the final distance to move away from the other boids
 	avoid_factor = 10 / 100,
@@ -152,6 +152,7 @@ function Boid:matchVelocity(boids, context)
 end
 
 Boid.__newindex = utils.immutableTable
+
 return setmetatable(Boid, {
 	__call = function(_, ...)
 		return new(...)

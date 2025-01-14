@@ -77,7 +77,6 @@ function love.update()
 		local bd = boids[i]
 		tree:insert(bd.position, bd)
 	end
-
 	move_to_new_positions(tree)
 
 	tree:clear()
