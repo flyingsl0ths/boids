@@ -1,4 +1,4 @@
-local utils = require "simu.utils"
+local utils = require "utils.utils"
 local quadrants = require "simu.quad.quadrants"
 
 local Node = {}
@@ -97,15 +97,20 @@ function Node:query(range, found)
 end
 
 function Node:clear()
-	self.points = {}
-
 	if self.divided then
 		self.divided = false
 		self.north_west:clear()
+		self.north_west = nil
 		self.north_east:clear()
+		self.north_east = nil
 		self.south_west:clear()
+		self.south_west = nil
 		self.south_east:clear()
+		self.south_east = nil
 	end
+
+	self.depth = 0
+	self.points = {}
 end
 
 return setmetatable(Node, {

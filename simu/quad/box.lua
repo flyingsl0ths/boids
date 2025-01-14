@@ -1,4 +1,4 @@
-local utils = require "simu.utils"
+local utils = require "utils.utils"
 local quadrants = require "simu.quad.quadrants"
 
 local Box = {}

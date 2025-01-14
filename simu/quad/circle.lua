@@ -1,5 +1,5 @@
-local utils = require "simu.utils"
-local vec2 = require "simu.vec2"
+local utils = require "utils.utils"
+local vec2 = require "utils.vec2"
 
 local Circle = {}
 
@@ -15,7 +15,7 @@ local function new(x, y, r)
 end
 
 function Circle:contains(point)
-	local d = math.pow(point.x - self.position.x, 2) + math.pow(point.y - self.position.y, 2)
+	local d = (point - self.position):length()
 	return d <= self.r_squared
 end
 

@@ -1,4 +1,4 @@
-local utils = require "simu.utils"
+local utils = require "utils.utils"
 
 local Shapes = {
 	TRIANGLE = 1,

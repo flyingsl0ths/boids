@@ -1,5 +1,5 @@
 local node = require "simu.quad.node"
-local utils = require "simu.utils"
+local utils = require "utils.utils"
 
 local CAPACITY = 8
 local MAX_DEPTH = 8
@@ -8,7 +8,7 @@ local QuadTree = {}
 
 QuadTree.__index = QuadTree
 
-local function new(boundary, root, capacity, max_depth)
+local function new(boundary, capacity, root, max_depth)
 	local instance = {
 		root = root or node(boundary, capacity or CAPACITY, max_depth or MAX_DEPTH),
 	}

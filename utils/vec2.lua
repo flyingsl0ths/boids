@@ -1,4 +1,4 @@
-local utils = require "simu.utils"
+local utils = require "utils.utils"
 
 local Vec2 = {}
 
@@ -141,4 +141,6 @@ return setmetatable(Vec2, {
 	end,
 
 	__metatable = false,
+
+	__newindex  = utils.immutableTable,
 })
