@@ -1,20 +1,20 @@
-local vec2 = require "utils.vec2"
-local shapes = require "simu.shape"
-local box = require "simu.quad.box"
-local circle = require "simu.quad.circle"
-local qt = require "simu.quad.quad_tree"
-local boid = require "simu.boid"
-local ui = require "ui"
+local vec2            = require "utils.vec2"
+local shapes          = require "simu.shape"
+local box             = require "simu.quad.box"
+local circle          = require "simu.quad.circle"
+local qt              = require "simu.quad.quad_tree"
+local boid            = require "simu.boid"
+local ui              = require "ui"
 
-local boids = {}
+local boids           = {}
 local tree
 
-local WINDOW_SIZE = { width = 1000, height = 600 }
-local DRAWING_AREA = { width = WINDOW_SIZE.width, height = WINDOW_SIZE.height - 100 }
+local WINDOW_SIZE     = { width = 1000, height = 600 }
+local DRAWING_AREA    = { width = WINDOW_SIZE.width, height = WINDOW_SIZE.height - 100 }
 
 local STARTING_AMOUNT = 300
 
-local size_slider
+local sliders         = {}
 local ui_context
 
 local function position_boids()
@@ -59,6 +59,22 @@ local function move_to_new_positions(qtree)
 	end
 end
 
+local function get_label(parameter)
+	if i == 1 then
+		label = "Speed:" 
+	elseif i == 2 then
+		label = "VisualRange:" 
+	elseif i == 3 then
+		label = "CenteringFactor:" 
+	elseif i == 4 then
+		label = "MinDistance:" 
+	elseif i == 5 then
+		label = "MatchingFactor" 
+	elseif i == 6 then
+		label = "AvoidFactor:" 
+	end
+end
+
 function love.load()
 	love.window.setTitle("Flocking Boids")
 	love.window.setMode(WINDOW_SIZE.width, WINDOW_SIZE.height, {})
@@ -69,13 +85,14 @@ function love.load()
 
 	ui_context = ui.context(love.graphics)
 
-	size_slider = ui.slider(0, 0.05, 0, 10,
-		function(value)
-			print(value)
-		end
-	)
+	for i = 1, 6, 1 do
+		local label = get_label(i)
+		local slider = ui.slider(0, 0.05, 0, 10)
 
-	size_slider:move(50, DRAWING_AREA.height + 50)
+		slider:move(50 + i * 0.25, DRAWING_AREA.height + 50)
+
+		sliders[i] = slider
+	end
 end
 
 local function update_ui_context(context, dt)

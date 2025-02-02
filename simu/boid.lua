@@ -47,8 +47,24 @@ local function new(pos, vel, shape)
 	return setmetatable(b, Boid)
 end
 
-function Boid:boundPosition(bounds, context)
+local function merge(old, current)
+	for key, value in pairs(current) do
+		old[key] = value
+	end
+end
+
+local function mk_context(context)
 	context = context or default_context
+
+	if context ~= default_context then
+		context = merge(default_context, context)
+	end
+
+	return context
+end
+
+function Boid:boundPosition(bounds, context)
+	context = mk_context(context)
 
 	local turn_factor = 1
 
@@ -67,9 +83,10 @@ function Boid:boundPosition(bounds, context)
 end
 
 function Boid:limitSpeed(context)
-	context = context or default_context
+	context = mk_context(context)
 
 	local speed_limit = default_context.speed_limit
+
 
 	local speed = self.velocity:length()
 
@@ -80,9 +97,8 @@ function Boid:limitSpeed(context)
 end
 
 function Boid:flyTowardsCenter(boids, context)
-	context                = context or default_context
+	context                = mk_context(context) -- Rule 1: Boids try to fly towards the center of mass of neighboring boids
 
-	-- Rule 1: Boids try to fly towards the center of mass of neighboring boids
 	-- NOTE:: The center is just the average position of all the boids
 
 	-- NOTE: This controls how much/fast to move towards the center
@@ -128,9 +144,8 @@ function Boid:avoidOthers(boids)
 end
 
 function Boid:matchVelocity(boids, context)
-	context = context or default_context
+	context = mk_context(context) -- Rule 3: Boids try to match velocity with near boids
 
-	-- Rule 3: Boids try to match velocity with near boids
 	-- NOTE: The controls the percentage of the final velocity
 	local matching_factor = 2 / 100
 
