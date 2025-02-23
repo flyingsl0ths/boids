@@ -123,7 +123,7 @@ end
 -- @treturn Vec2
 function Vec2.fromPolar(theta, radius)
 	local x = math.cos(theta) * radius
-	local y = math.cos(theta) * radius
+	local y = math.sin(theta) * radius
 	return new(x, y)
 end
 
